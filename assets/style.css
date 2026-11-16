@@ -255,6 +255,9 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .form textarea{min-height:130px;resize:vertical}
 .form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(201,79,26,.14)}
 .form-note{font-size:.84rem;color:var(--ink-2);margin:14px 0 0}
+.form-status{font-size:.95rem;font-weight:600;margin:14px 0 0;min-height:1.5em}
+.form-status.ok{color:#2E7D4F}
+.form-status.err{color:var(--accent-hover)}
 .contact-list{display:grid;gap:22px;margin:0}
 .contact-list > div{display:flex;gap:16px;align-items:flex-start}
 .contact-list .icon{margin:0}

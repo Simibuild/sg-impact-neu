@@ -18,7 +18,9 @@ TODAY = '2026-11-03'
 PHONE = '+49 151 59102629'
 PHONE_TEL = '+4915159102629'
 MAIL = 'info@giesbrecht-s.de'
-ADDR = 'Beethovenstr. 4, 57577 Hamm/Sieg'
+ADDR = 'Glatteneichener Weg 59, 57537 Glatteneichen'
+# Web3Forms-Zugangsschlüssel: leitet Formular-Anfragen an MAIL weiter. Ohne Schlüssel öffnet das Formular das E-Mail-Programm.
+W3F_KEY = ''
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E"
            "%3Crect width='100' height='100' rx='22' fill='%23C94F1A'/%3E%3Ctext x='50' y='66' "
            "font-family='Arial, sans-serif' font-weight='900' font-size='46' fill='white' "
@@ -65,8 +67,8 @@ ORG = {
     'telephone': PHONE,
     'email': MAIL,
     'founder': {'@type': 'Person', 'name': 'Simeon Giesbrecht'},
-    'address': {'@type': 'PostalAddress', 'streetAddress': 'Beethovenstr. 4',
-                'postalCode': '57577', 'addressLocality': 'Hamm/Sieg', 'addressCountry': 'DE'},
+    'address': {'@type': 'PostalAddress', 'streetAddress': 'Glatteneichener Weg 59',
+                'postalCode': '57537', 'addressLocality': 'Glatteneichen', 'addressCountry': 'DE'},
     'areaServed': {'@type': 'Country', 'name': 'Deutschland'},
     'description': 'Webseiten für Handwerksbetriebe, die mehr Anfragen und mehr Sichtbarkeit bei Google bringen.',
 }
@@ -687,7 +689,7 @@ def page_kontakt():
         '<div>' + icon('clock') + '<p><strong>Antwortzeit</strong>In der Regel innerhalb von 24 Stunden</p></div>'
         '</div>')
     form = (
-        '<form class="form reveal" data-mail="{{MAIL}}" novalidate>'
+        '<form class="form reveal" data-mail="{{MAIL}}" data-key="' + W3F_KEY + '" novalidate>'
         '<div class="form-row"><div><label for="name">Name *</label><input id="name" name="name" required autocomplete="name" placeholder="Dein Name"></div>'
         '<div><label for="email">E-Mail *</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="du@firma.de"></div></div>'
         '<div class="form-row"><div><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="Optional"></div>'
@@ -699,7 +701,8 @@ def page_kontakt():
         '<textarea id="message" name="message" required placeholder="Erzähl kurz von deinem Betrieb und deinem Ziel."></textarea>'
         '<label class="check"><input type="checkbox" name="datenschutz" required><span>Ich habe die <a href="datenschutz.html">Datenschutzerklärung</a> gelesen.</span></label>'
         '<button type="submit" class="btn btn-primary btn-block">Nachricht senden</button>'
-        '<p class="form-note">Mit dem Absenden öffnet sich dein E-Mail-Programm mit vorausgefüllter Nachricht an {{MAIL}}.</p>'
+        '<p class="form-status" role="status" aria-live="polite"></p>'
+        '<p class="form-note">Deine Nachricht geht direkt an {{MAIL}}. Ich antworte in der Regel innerhalb von 24 Stunden.</p>'
         '</form>')
     body = (
         hero_page('Kostenloses Erstgespräch vereinbaren',

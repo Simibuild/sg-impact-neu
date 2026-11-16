@@ -86,21 +86,52 @@ document.addEventListener("DOMContentLoaded", () => {
     update();
   }
 
-  // Kontaktformular: öffnet das E-Mail-Programm mit vorausgefüllter Nachricht (kein Server nötig)
+  // Kontaktformular: sendet die Anfrage über Web3Forms direkt an die Mailadresse.
+  // Ohne Zugangsschlüssel (data-key) öffnet sich stattdessen das E-Mail-Programm.
   const form = document.querySelector("form.form");
   if (form) {
-    form.addEventListener("submit", (e) => {
+    const status = form.querySelector(".form-status");
+    const button = form.querySelector("button[type=submit]");
+    const v = (name) => form.elements[name].value.trim();
+    const showStatus = (text, cls) => {
+      status.textContent = text;
+      status.className = "form-status " + (cls || "");
+    };
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!form.reportValidity()) return;
-      const v = (name) => form.elements[name].value.trim();
       const lines = ["Name: " + v("name"), "E-Mail: " + v("email")];
       if (v("phone")) lines.push("Telefon: " + v("phone"));
       if (v("betrieb")) lines.push("Betrieb: " + v("betrieb"));
       if (v("ziel")) lines.push("Ziel: " + v("ziel"));
       lines.push("", v("message"));
-      const subject = encodeURIComponent("Anfrage über sg-impact.de");
-      const body = encodeURIComponent(lines.join("\n"));
-      window.location.href = "mailto:" + form.dataset.mail + "?subject=" + subject + "&body=" + body;
+      if (!form.dataset.key) {
+        const subject = encodeURIComponent("Anfrage über sg-impact.de");
+        const body = encodeURIComponent(lines.join("\n"));
+        window.location.href = "mailto:" + form.dataset.mail + "?subject=" + subject + "&body=" + body;
+        return;
+      }
+      button.disabled = true;
+      showStatus("Wird gesendet …");
+      try {
+        const data = new FormData(form);
+        data.append("access_key", form.dataset.key);
+        data.append("subject", "Neue Anfrage über sg-impact.de");
+        data.append("from_name", "SG-Impact Webseite");
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: data,
+          headers: { Accept: "application/json" },
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.message || "Versand fehlgeschlagen");
+        form.reset();
+        showStatus("Danke, deine Anfrage ist angekommen. Ich melde mich in der Regel innerhalb von 24 Stunden.", "ok");
+      } catch (err) {
+        showStatus("Das hat leider nicht geklappt. Schreib mir bitte direkt an " + form.dataset.mail + ".", "err");
+      } finally {
+        button.disabled = false;
+      }
     });
   }
 });
