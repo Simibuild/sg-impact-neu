@@ -20,7 +20,7 @@ PHONE_TEL = '+4915159102629'
 MAIL = 'info@giesbrecht-s.de'
 ADDR = 'Glatteneichener Weg 59, 57537 Glatteneichen'
 # Web3Forms-Zugangsschlüssel: leitet Formular-Anfragen an MAIL weiter. Ohne Schlüssel öffnet das Formular das E-Mail-Programm.
-W3F_KEY = ''
+W3F_KEY = '607c7a87-c89b-4cd9-98f1-374671b711df'
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E"
            "%3Crect width='100' height='100' rx='22' fill='%23C94F1A'/%3E%3Ctext x='50' y='66' "
            "font-family='Arial, sans-serif' font-weight='900' font-size='46' fill='white' "
